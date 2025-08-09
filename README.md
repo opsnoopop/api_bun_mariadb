@@ -97,20 +97,46 @@ CREATE TABLE testdb.users (
 
 ## Test Performance by sysbench
 
-### sysbench e.g
-```bash
+### sysbench e.g.
+```text
+step 1 prepare
+step 2 run test someting
+step 3 cleanup
+
+sysbench \
 ...
-oltp_read_write prepare # สร้าง table
-oltp_read_write run     # อ่าน เขียน พร้อมกัน
-oltp_read_only run      # อ่าน อย่างเดียว
-oltp_write_only run     # เขียน อย่างเดียว
-oltp_update_index run   # update index
-oltp_point_select run   # query แบบเลือก row เดียว
-oltp_delete run         # delete rows
-oltp_read_write cleanup # ลบ table
+oltp_read_write prepare; # step 1 prepare สร้าง table
+
+sysbench \
+...
+oltp_read_write run;     # step 2 run test อ่าน เขียน พร้อมกัน
+
+sysbench \
+...
+oltp_read_only run;      # step 2 run test อ่าน อย่างเดียว
+
+sysbench \
+...
+oltp_write_only run;     # step 2 run test เขียน อย่างเดียว
+
+sysbench \
+...
+oltp_update_index run;   # step 2 run test update index
+
+sysbench \
+...
+oltp_point_select run;   # step 2 run test query แบบเลือก row เดียว
+
+sysbench \
+...
+oltp_delete run;         # step 2 run test delete rows
+
+sysbench \
+...
+oltp_read_write cleanup; # step 3 cleanup ลบ table
 ```
 
-### sysbench prepare
+### sysbench step 1 prepare
 ```bash
 docker run \
 --name container_ubuntu_tool \
@@ -128,11 +154,11 @@ sysbench \
 --mysql-password="testpass" \
 --mysql-db="testdb" \
 --tables=10 \
---table-size=10000 \
-oltp_read_write prepare
+--table-size=100000 \
+oltp_read_write prepare;
 ```
 
-### sysbench test
+### sysbench step 2 run test
 ```bash
 docker run \
 --name container_ubuntu_tool \
@@ -150,8 +176,30 @@ sysbench \
 --mysql-password="testpass" \
 --mysql-db="testdb" \
 --tables=10 \
---table-size=10000 \
-oltp_read_write run
+--table-size=100000 \
+oltp_read_write run;
+```
+
+### sysbench step 3 cleanup
+```bash
+docker run \
+--name container_ubuntu_tool \
+--rm \
+-it \
+--network global_bun \
+opsnoopop/ubuntu-tool:1.0 \
+sysbench \
+--threads=2 \
+--time=10 \
+--db-driver="mysql" \
+--mysql-host="container_mariadb" \
+--mysql-port=3306 \
+--mysql-user="testuser" \
+--mysql-password="testpass" \
+--mysql-db="testdb" \
+--tables=10 \
+--table-size=100000 \
+oltp_read_write cleanup;
 ```
 
 
