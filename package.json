@@ -6,6 +6,6 @@
     "start": "bun index.ts"
   },
   "dependencies": {
-    "mariadb": "3.4.5"
+    "mariadb": "^3.4.5"
   }
 }

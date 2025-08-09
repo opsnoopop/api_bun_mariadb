@@ -49,8 +49,7 @@ CREATE TABLE testdb.users (
   email VARCHAR(100) NOT NULL ,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ,
   PRIMARY KEY (user_id)
-) ENGINE = InnoDB;
-"
+) ENGINE = InnoDB;"
 ```
 
 
@@ -94,6 +93,65 @@ CREATE TABLE testdb.users (
   "username":"optest",
   "email":"opsnoopop@hotmail.com"
 }
+```
+
+## Test Performance by sysbench
+
+### sysbench e.g
+```bash
+...
+oltp_read_write prepare # สร้าง table
+oltp_read_write run     # อ่าน เขียน พร้อมกัน
+oltp_read_only run      # อ่าน อย่างเดียว
+oltp_write_only run     # เขียน อย่างเดียว
+oltp_update_index run   # update index
+oltp_point_select run   # query แบบเลือก row เดียว
+oltp_delete run         # delete rows
+oltp_read_write cleanup # ลบ table
+```
+
+### sysbench prepare
+```bash
+docker run \
+--name container_ubuntu_tool \
+--rm \
+-it \
+--network global_bun \
+opsnoopop/ubuntu-tool:1.0 \
+sysbench \
+--threads=2 \
+--time=10 \
+--db-driver="mysql" \
+--mysql-host="container_mariadb" \
+--mysql-port=3306 \
+--mysql-user="testuser" \
+--mysql-password="testpass" \
+--mysql-db="testdb" \
+--tables=10 \
+--table-size=10000 \
+oltp_read_write prepare
+```
+
+### sysbench test
+```bash
+docker run \
+--name container_ubuntu_tool \
+--rm \
+-it \
+--network global_bun \
+opsnoopop/ubuntu-tool:1.0 \
+sysbench \
+--threads=2 \
+--time=10 \
+--db-driver="mysql" \
+--mysql-host="container_mariadb" \
+--mysql-port=3306 \
+--mysql-user="testuser" \
+--mysql-password="testpass" \
+--mysql-db="testdb" \
+--tables=10 \
+--table-size=10000 \
+oltp_read_write run
 ```
 
 
