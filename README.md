@@ -20,7 +20,7 @@ A simple Bun API application and MariaDB, containerized with Docker.
 
 **Grafana/k6 Container: FROM grafana/k6:1.1.0**
 - OS Alpine Linux: 3.22.0
-- grafana/k6: 1.1.0
+- Grafana/k6: 1.1.0
 
 
 ## Getting Started
