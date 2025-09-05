@@ -22,7 +22,7 @@ serve({
     const url = new URL(req.url);
 
     if (req.method === "GET" && url.pathname === "/") {
-      return new Response(JSON.stringify({ message: "Hello World from Bun" }), {
+      return new Response(JSON.stringify({ message: "Hello World from Bun (MariaDB)" }), {
         headers: { "Content-Type": "application/json" },
       });
 
