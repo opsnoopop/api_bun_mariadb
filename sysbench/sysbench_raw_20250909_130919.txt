@@ -1,0 +1,38 @@
+MariaDB
+sysbench 1.0.20 (using system LuaJIT 2.1.0-beta3)
+
+Running the test with following options:
+Number of threads: 2
+Initializing random number generator from current time
+
+
+Initializing worker threads...
+
+Threads started!
+
+SQL statistics:
+    queries performed:
+        read:                            38472
+        write:                           10986
+        other:                           5494
+        total:                           54952
+    transactions:                        2746   (272.66 per sec.)
+    queries:                             54952  (5456.35 per sec.)
+    ignored errors:                      2      (0.20 per sec.)
+    reconnects:                          0      (0.00 per sec.)
+
+General statistics:
+    total time:                          10.0699s
+    total number of events:              2746
+
+Latency (ms):
+         min:                                    4.62
+         avg:                                    7.33
+         max:                                   85.20
+         95th percentile:                        9.06
+         sum:                                20118.51
+
+Threads fairness:
+    events (avg/stddev):           1373.0000/1.00
+    execution time (avg/stddev):   10.0593/0.00
+

@@ -9,4 +9,6 @@ k6/
 node_modules/
 mariadb/
 mariadb_initdb/
-test*.sh
+sysbench/
+wrk/
+*.sh
